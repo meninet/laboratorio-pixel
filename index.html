@@ -484,7 +484,7 @@
         .layer-gold { background: var(--orange); }
         .layer-wood { background: var(--orange); height: 8px !important; }
         .layer-brown { background: rgba(171, 120, 78, 0.85); }
-        .layer-dark { background: rgba(20, 20, 30, 0.95); }
+        .layer-dark { background: rgba(40, 40, 80, 0.95); }
         .layer-flour { background: rgba(220, 210, 200, 0.5); }
 
         .bubbles-overlay {
@@ -577,7 +577,7 @@
             border-radius: 2px;
         }
 
-        /* Microscope overlay */
+        /* Microscope view (inline, replaces beaker) */
         .microscope-overlay {
             position: absolute;
             top: 50%; left: 50%;
@@ -585,7 +585,6 @@
             width: 180px; height: 180px;
             border-radius: 50%;
             border: 8px solid var(--light-gray);
-            box-shadow: 0 0 0 9999px rgba(0,0,0,0.85);
             display: none;
             z-index: 10;
             overflow: hidden;
@@ -863,6 +862,95 @@
         }
 
         /* ===== RESPONSIVE ===== */
+
+        /* Ordering mechanic */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .order-item {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            padding: 10px 12px;
+            background: #2a3a6a;
+            color: var(--white);
+            border: 3px solid var(--blue);
+            border-radius: 2px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+            line-height: 1.8;
+        }
+
+        .order-item:active { cursor: grabbing; }
+        .order-item:hover { background: #3a4a7a; border-color: var(--yellow); }
+
+        .order-item.correct { background: var(--dark-green); border-color: var(--green); }
+        .order-item.wrong { background: #5a2020; border-color: var(--red); }
+
+        .order-number {
+            display: inline-block;
+            width: 20px; height: 20px;
+            background: var(--dark-purple);
+            color: var(--pink);
+            text-align: center;
+            line-height: 20px;
+            font-size: 8px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .order-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-left: auto;
+            flex-shrink: 0;
+        }
+
+        .order-arrow {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            padding: 2px 6px;
+            background: var(--dark-gray);
+            color: var(--white);
+            border: 2px solid var(--light-gray);
+            cursor: pointer;
+            border-radius: 2px;
+        }
+
+        .order-arrow:hover { background: var(--blue); color: var(--black); }
+
+        /* Pre-card modal overlay */
+        .precard-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .precard-content {
+            background: linear-gradient(135deg, #0d1b3a 0%, #1a2a4e 100%);
+            border: 4px solid var(--blue);
+            border-radius: 4px;
+            padding: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+
         @media (max-width: 768px) {
             .game-title { font-size: 16px; }
             .game-subtitle { font-size: 8px; }
@@ -936,13 +1024,13 @@
 
         <h1 class="game-title">LABORATÓRIO PIXEL:<br>A Missão das Fases</h1>
         <p class="game-subtitle">
-            Ajude o robô Pixel a organizar o laboratório classificando misturas e aprendendo métodos de separação!
+            O robô Pixel precisa da sua ajuda para organizar o laboratório! Amostras misteriosas chegaram e é preciso classificar cada uma: são misturas homogêneas ou heterogêneas? Encare 4 fases de desafios, use o microscópio e domine os métodos de separação!
         </p>
         <div class="bncc-badge">BNCC: EF06CI01 | SAEB: E1B1</div>
-        <button class="btn btn-start" onclick="goToNameScreen()">INICIAR MISSÃO</button>
+        <button class="btn btn-start" onclick="goToNameScreen()">🔬 INICIAR MISSÃO</button>
     </div>
 
-    <!-- ===== TELA 2: NOME ===== -->
+    <!-- ===== TELA 2: NOME + APRENDIZAGENS ===== -->
     <div class="screen" id="screen-name">
         <div class="robot-container">
             <div class="robot" id="robot-name">
@@ -960,13 +1048,26 @@
 
         <div class="dialog-box" style="max-width:500px;">
             <span class="dialog-speaker">PIXEL:</span>
-            <span class="dialog-text">Olá! Sou o Pixel, seu assistente de laboratório. Antes de começarmos, como devo te chamar?</span>
+            <span class="dialog-text">Olá! Sou o Pixel, seu assistente de laboratório. Nesta missão, vamos explorar o mundo das misturas!</span>
+        </div>
+
+        <div style="background:#0d1b3a;border:3px solid var(--blue);padding:14px 18px;margin:12px 0;max-width:500px;width:100%;border-radius:4px;">
+            <p style="font-size:9px;color:var(--yellow);margin-bottom:10px;line-height:1.8;">Você vai aprender:</p>
+            <p style="font-size:8px;color:var(--white);line-height:2.4;">
+                ✦ Observar e contar fases em diferentes misturas<br>
+                ✦ Classificar misturas em homogêneas e heterogêneas<br>
+                ✦ Identificar coloides usando o microscópio<br>
+                ✦ Diferenciar soluções verdadeiras de coloides<br>
+                ✦ Escolher o método de separação correto para cada mistura<br>
+                ✦ Relacionar propriedades dos materiais aos métodos de separação
+            </p>
         </div>
 
         <p class="name-prompt">DIGITE SEU NOME:</p>
         <input type="text" class="pixel-input" id="player-name-input" placeholder="Seu nome aqui..." maxlength="20" autocomplete="off">
         <br><br>
-        <button class="btn btn-start" id="btn-confirm-name" onclick="confirmName()" disabled>CONFIRMAR</button>
+        <button class="btn btn-start" id="btn-confirm-name" onclick="confirmName()" disabled>🔬 ENTRAR NO LABORATÓRIO</button>
+        <p style="font-size:7px;color:var(--indigo);margin-top:16px;line-height:2;text-align:center;">Jogo educativo — BNCC EF06CI01 | Misturas homogêneas e heterogêneas • 6º ano EF</p>
     </div>
 
     <!-- ===== TELA 3: CARDS DE AULA ===== -->
@@ -1026,6 +1127,7 @@
             <div class="beaker-frame" id="beaker-frame">
                 <div class="beaker-spout"></div>
                 <div class="beaker-glass" id="beaker-glass"></div>
+                <div id="beaker-question-mark" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Press Start 2P',monospace;font-size:40px;color:var(--yellow);text-shadow:2px 2px var(--brown);z-index:5;pointer-events:none;">?</div>
             </div>
             <div class="microscope-overlay" id="microscope-overlay">
                 <div class="micro-content" id="micro-content"></div>
@@ -1084,15 +1186,33 @@
             <div class="cert-stars" id="cert-stars"></div>
             <div class="cert-score" id="cert-score"></div>
 
-            <div class="cert-bncc">
-                Habilidade BNCC: EF06CI01 — Classificar como homogênea ou heterogênea a mistura de dois ou mais materiais.<br>
-                Descritor SAEB: E1B1 — Classificar misturas e identificar métodos de separação.<br>
-                Habilidade Computação: EF06CO01 — Classificar informações em coleções.
+            <div class="dialog-box" style="max-width:500px;margin:14px auto;">
+                <span class="dialog-speaker">PIXEL:</span>
+                <span class="dialog-text" id="cert-narrative"></span>
             </div>
+
+            <div style="background:#0d1b3a;border:4px solid var(--blue);padding:14px 16px;margin:12px auto;max-width:500px;width:100%;border-radius:4px;text-align:left;">
+                <p style="font-size:8px;color:var(--yellow);margin-bottom:8px;line-height:1.8;text-align:center;">O que você aprendeu:</p>
+                <p style="font-size:7px;color:var(--white);line-height:2.2;">
+                    ✦ Observar e contar fases em diferentes misturas<br>
+                    ✦ Classificar misturas em homogêneas e heterogêneas<br>
+                    ✦ Identificar coloides usando o microscópio<br>
+                    ✦ Diferenciar soluções verdadeiras de coloides<br>
+                    ✦ Escolher o método de separação correto para cada mistura<br>
+                    ✦ Relacionar propriedades dos materiais aos métodos de separação
+                </p>
+            </div>
+
+            <div class="cert-bncc">
+                Habilidade BNCC: EF06CI01 — Classificar como homogênea ou heterogênea a mistura de dois ou mais materiais (água e sal, água e óleo, água e areia etc.).<br>
+                Componente: Ciências — 6º ano do Ensino Fundamental
+            </div>
+
+            <div style="font-size:7px;color:var(--green);margin-top:12px;">🌐 Ciência Plural — cienciaplural.com.br</div>
         </div>
 
         <div class="cert-buttons">
-            <button class="btn btn-start" onclick="location.reload()">JOGAR NOVAMENTE</button>
+            <button class="btn btn-start" onclick="location.reload()">🔄 JOGAR NOVAMENTE</button>
         </div>
     </div>
 
@@ -1155,6 +1275,11 @@ const PHASES = [
         subtitle: "Conceito de Mistura e Fase",
         cards: [
             {
+                icon: "🔄",
+                title: "ANTES E DEPOIS: COMO NASCE UMA MISTURA?",
+                body: 'Antes de classificar, observe como uma mistura se forma!<br><br>🔹 <span class="card-highlight">ÁGUA + SAL</span> → Antes: água líquida e cristais de sal separados. Depois: o sal se dissolve na água e tudo fica uniforme — não conseguimos mais vê-lo!<br><br>🔹 <span class="card-warning">ÁGUA + ÓLEO</span> → Antes: água e óleo em recipientes separados. Depois: mesmo mexendo muito, o óleo (menos denso) flutua e forma uma camada por cima da água — eles não se misturam!<br><br>🔹 <span class="card-warning">ÁGUA + AREIA</span> → Antes: água líquida e grãos de areia separados. Depois: a areia se deposita no fundo e a água fica por cima — continuamos vendo duas partes diferentes!<br><br>Percebeu? Alguns materiais se misturam tão bem que somem um no outro. Outros continuam visíveis e separados. Essa diferença é a chave de tudo!'
+            },
+            {
                 icon: "🧪",
                 title: "O QUE É UMA MISTURA?",
                 body: 'Na Ciência, uma <span class="card-highlight">MISTURA</span> acontece quando juntamos <span class="card-highlight">dois ou mais materiais</span> diferentes. Exemplos: água com sal, ar atmosférico, granito. Quase tudo ao nosso redor é uma mistura!'
@@ -1171,6 +1296,8 @@ const PHASES = [
             }
         ],
         mechanic: "phases_count",
+        openingDialog: "Muito bem, [NOME]! Você viu que quando misturamos materiais, o resultado pode mudar completamente — alguns desaparecem um no outro, outros continuam separados. Agora vou te mostrar várias amostras que chegaram ao laboratório já misturadas. Sua tarefa é observar o resultado e me dizer: quantas fases você consegue ver? Uma fase só? Ou duas ou mais? Confio no seu olhar de cientista — vamos lá!",
+        transitionDialog: "Ótimo trabalho, [NOME]! Você já sabe observar e contar fases — esse é o olhar de um verdadeiro cientista. Mas saber contar não basta: agora precisamos CLASSIFICAR essas misturas. Na próxima fase, vou te apresentar amostras de todo tipo — sólidas, líquidas e até gasosas — e você vai dar a cada uma o nome correto: homogênea ou heterogênea. Preparado? O laboratório está ficando mais organizado!",
         options: [
             { label: "1 FASE (Uniforme)", value: 1 },
             { label: "2+ FASES (Diferente)", value: 2 }
@@ -1181,42 +1308,54 @@ const PHASES = [
                 visual: { type: "liquid", layers: [{ class: "layer-water", height: 70 }] },
                 answer: 1,
                 hint: "Observe: você consegue ver alguma diferença ou divisão?",
-                feedback: "Isso! A água pura tem aparência totalmente uniforme. Observamos apenas 1 fase."
+                feedbackCorrect: "Isso! A água pura tem aparência totalmente uniforme. Observamos apenas 1 fase — tudo é igual de cima a baixo.",
+                feedbackRetry: "Hmm, olhe de novo com atenção! Existe alguma camada, divisão ou parte diferente nesse líquido? Tente novamente!",
+                feedbackFinal: "Olhe com atenção: a água pura não apresenta camadas, pedaços ou divisões visíveis. Tudo parece igual e uniforme, o que indica apenas 1 fase."
             },
             {
                 name: "Água + Areia",
-                visual: { type: "liquid", layers: [{ class: "layer-sand", height: 20 }, { class: "layer-water", height: 50 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-water", height: 50 }, { class: "layer-sand", height: 20 }] },
                 answer: 2,
                 hint: "Olhe para o fundo do copo. Há algo diferente ali?",
-                feedback: "Correto! Vemos a areia sólida no fundo e a água líquida acima. São 2 fases diferentes!"
+                feedbackCorrect: "Correto! Vemos a areia sólida no fundo e a água líquida acima. São 2 fases diferentes — uma sólida e outra líquida!",
+                feedbackRetry: "Quase! Compare o fundo do recipiente com a parte de cima — o que está embaixo tem a mesma aparência do que está em cima? Tente de novo!",
+                feedbackFinal: "Repare no fundo do recipiente: a areia sólida está separada da água líquida. São partes visualmente diferentes, o que indica 2 fases, não apenas 1."
             },
             {
                 name: "Água + Óleo",
-                visual: { type: "liquid", layers: [{ class: "layer-water", height: 45 }, { class: "layer-oil", height: 25 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-oil", height: 25 }, { class: "layer-water", height: 45 }] },
                 answer: 2,
                 hint: "Esses dois líquidos se misturam completamente?",
-                feedback: "Certo! O óleo flutua sobre a água porque são imiscíveis. Cada líquido é uma fase."
+                feedbackCorrect: "Certo! O óleo flutua sobre a água porque são imiscíveis. Cada líquido forma uma camada separada — são 2 fases!",
+                feedbackRetry: "Não foi dessa vez! Observe se há alguma linha de separação entre os líquidos. São iguais de cima a baixo? Tente novamente!",
+                feedbackFinal: "Mesmo sendo ambos líquidos, água e óleo não se misturam (são imiscíveis). Você pode ver a linha de separação entre eles — isso indica 2 fases distintas."
             },
             {
                 name: "Suco de Limão (Coado)",
                 visual: { type: "liquid", layers: [{ class: "layer-green", height: 70 }] },
                 answer: 1,
                 hint: "O suco foi coado. A aparência é toda igual?",
-                feedback: "Isso! Água, suco e açúcar estão totalmente misturados. Vemos apenas 1 fase uniforme."
+                feedbackCorrect: "Isso! Após a filtragem, o ácido cítrico, os açúcares e outros compostos do limão estão completamente dissolvidos na água. Vemos apenas 1 fase uniforme — sem separação visível.",
+                feedbackRetry: "Hmm, lembre-se: o suco foi coado. Ainda há pedaços, polpa ou qualquer parte diferente visível? Olhe bem e tente de novo!",
+                feedbackFinal: "Cuidado! O suco foi coado, então não há polpa ou pedaços. A aparência é uniforme de cima a baixo, sem divisões visíveis. Isso indica 1 fase, não 2."
             },
             {
                 name: "Salada de Frutas",
                 visual: { type: "fruits" },
                 answer: 2,
                 hint: "Cada pedaço de fruta diferente é visualmente distinto...",
-                feedback: "Exato! Cada pedaço de fruta diferente conta como uma fase. São várias fases!"
+                feedbackCorrect: "Exato! Cada tipo de fruta (morango, banana, uva...) é visualmente diferente dos outros. São várias fases!",
+                feedbackRetry: "Quase! Observe os pedaços no recipiente — eles são todos iguais em cor, forma e textura? Pense nisso e tente novamente!",
+                feedbackFinal: "Observe melhor: você consegue ver pedaços de frutas diferentes — cores, formas e texturas distintas. Cada parte visível diferente é uma fase. Há claramente mais de 1!"
             },
             {
                 name: "Café com Leite",
                 visual: { type: "liquid", layers: [{ class: "layer-brown", height: 70 }] },
                 answer: 1,
                 hint: "Depois de mexer bem, você consegue ver o café separado do leite?",
-                feedback: "Isso! O café e o leite se misturaram completamente. A aparência é uniforme: 1 fase."
+                feedbackCorrect: "Isso! O café e o leite se misturaram completamente. A aparência é uniforme — 1 única fase, sem separação visível.",
+                feedbackRetry: "Não foi dessa vez! Depois de bem misturado, você consegue enxergar o café separado do leite? Olhe com atenção e tente de novo!",
+                feedbackFinal: "Embora o café e o leite sejam materiais diferentes, depois de misturados não conseguimos ver um separado do outro. A aparência é toda igual e uniforme — isso é 1 fase."
             }
         ]
     },
@@ -1247,6 +1386,8 @@ const PHASES = [
             }
         ],
         mechanic: "classify",
+        openingDialog: "Excelente, [NOME]! Você já sabe contar fases como um profissional. Agora vamos dar nome aos bois — quer dizer, às misturas! Desta vez, as amostras são mais variadas: sólidas, líquidas e até gasosas. Sua missão é classificar cada uma como HOMOGÊNEA ou HETEROGÊNEA. Lembre-se da regra de ouro: consigo ver partes diferentes? Se sim, heterogênea. Se não, homogênea. O laboratório conta com você!",
+        transitionDialog: "Impressionante, [NOME]! Você classificou todas as amostras visíveis com sucesso. Mas eu tenho uma confissão: nem todas as amostras do laboratório são o que parecem... Algumas misturas se disfarçam de homogêneas, mas escondem um segredo que só o MICROSCÓPIO revela. Na próxima fase, vou liberar esse instrumento poderoso para você. Prepare-se para desmascarar os coloides!",
         options: [
             { label: "HOMOGÊNEA", value: "homo" },
             { label: "HETEROGÊNEA", value: "hetero" }
@@ -1257,84 +1398,108 @@ const PHASES = [
                 visual: { type: "liquid", layers: [{ class: "layer-water", height: 70 }] },
                 answer: "homo",
                 hint: "O sal se dissolveu completamente. Quantas fases você vê?",
-                feedback: "O sal se dissolveu totalmente na água. Só vemos 1 fase líquida uniforme. É Homogênea!"
+                feedbackCorrect: "O sal se dissolveu totalmente na água. Só vemos 1 fase líquida uniforme — não há separação visível. É Homogênea!",
+                feedbackRetry: "Hmm, pense: quando o sal se dissolve na água, ele continua visível? Conseguimos ver partes diferentes? Tente novamente!",
+                feedbackFinal: "Cuidado! Quando o sal se dissolve, ele desaparece na água — não conseguimos mais vê-lo. A mistura fica uniforme, com apenas 1 fase. Isso é homogênea, não heterogênea."
             },
             {
                 name: "Água + Óleo de Cozinha",
-                visual: { type: "liquid", layers: [{ class: "layer-water", height: 45 }, { class: "layer-oil", height: 25 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-oil", height: 25 }, { class: "layer-water", height: 45 }] },
                 answer: "hetero",
                 hint: "Água e óleo se misturam completamente?",
-                feedback: "Eles não se misturam (são imiscíveis). Vemos 2 fases claras. É Heterogênea!"
+                feedbackCorrect: "Água e óleo não se misturam (são imiscíveis). Vemos 2 fases claras — uma camada de água e outra de óleo. É Heterogênea!",
+                feedbackRetry: "Quase! Lembre-se: água e óleo ficam em camadas separadas no recipiente. Quantas fases isso indica? Tente de novo!",
+                feedbackFinal: "Observe as duas camadas no recipiente: a água embaixo e o óleo em cima. Eles não se misturam! Quando há partes visivelmente diferentes, a mistura é heterogênea."
             },
             {
                 name: "Ar Atmosférico",
                 visual: { type: "balloon" },
                 answer: "homo",
                 hint: "Os gases do ar (nitrogênio, oxigênio) formam partes visíveis?",
-                feedback: "O ar é uma mistura de gases (N₂, O₂, CO₂...), mas é visualmente uniforme. Homogênea!"
+                feedbackCorrect: "O ar é uma mistura de gases (N₂, O₂, CO₂...), mas é visualmente uniforme — não vemos os gases separados. Homogênea!",
+                feedbackRetry: "Não foi dessa vez! Pense no ar ao seu redor: você consegue enxergar os gases separados? Há partes visivelmente diferentes? Tente novamente!",
+                feedbackFinal: "Embora o ar tenha vários gases misturados, eles se misturam perfeitamente e não formam camadas ou partes visíveis. A aparência é uniforme — por isso é homogênea."
             },
             {
                 name: "Granito (Pedra)",
                 visual: { type: "granite" },
                 answer: "hetero",
                 hint: "Observe os pontinhos coloridos diferentes na pedra...",
-                feedback: "No granito vemos cristais diferentes (mica, quartzo, feldspato). É sólida e Heterogênea!"
+                feedbackCorrect: "No granito vemos cristais diferentes: mica (escuro), quartzo (claro) e feldspato (rosado). É uma mistura sólida e Heterogênea!",
+                feedbackRetry: "Hmm, olhe com atenção para a superfície da pedra. Ela é toda da mesma cor ou tem pontinhos de cores diferentes? Tente de novo!",
+                feedbackFinal: "Olhe de perto: o granito não é todo da mesma cor. Ele tem pontinhos escuros (mica), claros (quartzo) e rosados (feldspato). Essas partes diferentes visíveis tornam a mistura heterogênea."
             },
             {
                 name: "Água Mineral com Gás",
                 visual: { type: "liquid", layers: [{ class: "layer-water", height: 65, bubbles: true }] },
                 answer: "hetero",
                 hint: "As bolhas de gás são uma fase diferente da água líquida?",
-                feedback: "Atenção! As bolhas de CO₂ (fase gasosa) + água (fase líquida) = 2 fases. Heterogênea!"
+                feedbackCorrect: "As bolhas de CO₂ (fase gasosa) estão dentro da água (fase líquida). Gás e líquido são fases diferentes e visíveis — 2 fases! Heterogênea!",
+                feedbackRetry: "Quase! Preste atenção nas bolhas — elas são gás dentro de um líquido. São a mesma fase ou fases diferentes? Tente novamente!",
+                feedbackFinal: "Essa é uma pegadinha clássica! Veja as bolhas — elas são gás (CO₂) dentro de um líquido (água). Gás e líquido são fases diferentes e visíveis. Por isso é heterogênea."
             },
             {
                 name: "Ouro 18K (Aliança)",
                 visual: { type: "gold" },
                 answer: "homo",
                 hint: "A liga metálica fundida fica uniforme visualmente?",
-                feedback: "É uma liga metálica (Ouro + Cobre/Prata). Após fundida, fica visualmente uniforme. Homogênea!"
+                feedbackCorrect: "É uma liga metálica (Ouro + Cobre/Prata). Os metais foram fundidos juntos e, ao solidificar, formam um sólido visualmente uniforme — sem partes diferentes a olho nu. Homogênea!",
+                feedbackRetry: "Não foi dessa vez! Observe a superfície da aliança: conseguimos ver os metais diferentes separados a olho nu? Pense e tente de novo!",
+                feedbackFinal: "Embora a aliança tenha ouro e outros metais misturados, quando fundidos eles se combinam perfeitamente — não conseguimos ver os metais separados a olho nu. Aparência uniforme = homogênea."
             },
             {
                 name: "Água + Areia + Serragem",
-                visual: { type: "liquid", layers: [{ class: "layer-sand", height: 15 }, { class: "layer-water", height: 45 }, { class: "layer-wood", height: 8 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-wood", height: 8 }, { class: "layer-water", height: 45 }, { class: "layer-sand", height: 15 }] },
                 answer: "hetero",
                 hint: "Conte: o que afunda, o que fica no meio, o que flutua...",
-                feedback: "Três fases visíveis: areia (fundo), água (meio), serragem (flutuando). Super Heterogênea!"
+                feedbackCorrect: "Três fases visíveis: areia no fundo, água no meio e serragem flutuando na superfície. Super Heterogênea!",
+                feedbackRetry: "Hmm, conte as partes diferentes: o que tem no fundo, no meio e flutuando? Tudo parece igual? Tente novamente!",
+                feedbackFinal: "Observe as três partes diferentes: areia (sólida, no fundo), água (líquida, no meio) e serragem (flutuando). São 3 fases claramente visíveis — isso é heterogênea."
             },
             {
                 name: "Vinagre",
                 visual: { type: "liquid", layers: [{ class: "layer-water", height: 70 }] },
                 answer: "homo",
                 hint: "O vinagre é ácido acético dissolvido em água. Você vê partes separadas?",
-                feedback: "O vinagre é uma solução de ácido acético em água. Aparência uniforme, 1 fase. Homogênea!"
+                feedbackCorrect: "O vinagre é uma solução de ácido acético em água. A aparência é totalmente uniforme, sem divisões visíveis. Homogênea!",
+                feedbackRetry: "Quase! O vinagre é ácido acético dissolvido em água. Você enxerga partes separadas ou é tudo uniforme? Tente de novo!",
+                feedbackFinal: "O vinagre parece todo igual porque o ácido acético está completamente dissolvido na água. Não há camadas, pedaços ou partes diferentes visíveis — por isso é homogênea."
             },
             {
                 name: "Água + Farinha (mexida)",
-                visual: { type: "liquid", layers: [{ class: "layer-flour", height: 30 }, { class: "layer-water", height: 40 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-water", height: 40 }, { class: "layer-flour", height: 30 }] },
                 answer: "hetero",
                 hint: "A farinha se dissolve completamente ou fica suspensa/decantada?",
-                feedback: "A farinha não se dissolve: ela fica em suspensão ou decanta. Vemos fases distintas. Heterogênea!"
+                feedbackCorrect: "A farinha não se dissolve na água: ela fica em suspensão ou decanta no fundo. Vemos fases distintas. Heterogênea!",
+                feedbackRetry: "Não foi dessa vez! Pense: a farinha se dissolve na água como o sal ou ela fica suspensa, podendo decantar? Tente novamente!",
+                feedbackFinal: "Diferente do sal, a farinha não se dissolve na água. Com o tempo ela decanta (afunda) e podemos ver a separação. Fases diferentes visíveis = heterogênea."
             },
             {
                 name: "Bronze (Estátua)",
                 visual: { type: "bronze" },
                 answer: "homo",
                 hint: "O bronze é uma liga metálica (cobre + estanho). Visualmente parece uniforme?",
-                feedback: "O bronze é uma liga metálica (Cobre + Estanho). Após fundido, fica visualmente uniforme. Homogênea!"
+                feedbackCorrect: "O bronze é uma liga metálica (Cobre + Estanho). Quando fundidos, formam uma mistura sólida uniforme — sem partes diferentes visíveis. Homogênea!",
+                feedbackRetry: "Hmm, o bronze é uma liga metálica fundida. Quando olhamos sua superfície, vemos os metais separados ou parece tudo uniforme? Tente de novo!",
+                feedbackFinal: "Assim como o ouro 18K, o bronze é uma liga metálica: os metais se fundem e formam um material visualmente uniforme. Não conseguimos ver o cobre separado do estanho. É homogênea."
             },
             {
                 name: "Água + Gelo",
                 visual: { type: "ice_water" },
                 answer: "hetero",
                 hint: "A água líquida e o gelo sólido são a mesma fase?",
-                feedback: "Embora sejam o mesmo material (H₂O), água líquida e gelo sólido são estados físicos diferentes = 2 fases. Heterogênea!"
+                feedbackCorrect: "Embora sejam o mesmo material (H₂O), a água líquida e o gelo sólido estão em estados físicos diferentes — são 2 fases distintas e visíveis. Heterogênea!",
+                feedbackRetry: "Quase! Embora sejam o mesmo material (H₂O), pense: água líquida e gelo sólido estão no mesmo estado físico? Tente novamente!",
+                feedbackFinal: "Cuidado com esta pegadinha! Embora água e gelo sejam ambos H₂O, eles estão em estados físicos diferentes (líquido e sólido). Estados diferentes = fases diferentes = heterogênea."
             },
             {
                 name: "Sopa de Legumes",
                 visual: { type: "soup" },
                 answer: "hetero",
                 hint: "Você consegue ver os pedaços de legumes separados no caldo?",
-                feedback: "Vemos claramente os pedaços de legumes, batata, cenoura no caldo. Várias fases visíveis. Heterogênea!"
+                feedbackCorrect: "Vemos claramente os pedaços de legumes, batata, cenoura, cada um visível no caldo. Várias fases = Heterogênea!",
+                feedbackRetry: "Não foi dessa vez! Observe o recipiente: os pedaços de legumes são distinguíveis do caldo? Conseguimos ver partes diferentes? Tente de novo!",
+                feedbackFinal: "Na sopa você consegue ver os pedaços de legumes diferentes (cenoura, batata, carne) no caldo. Cada parte visualmente distinta é uma fase diferente — por isso é heterogênea."
             }
         ]
     },
@@ -1365,6 +1530,8 @@ const PHASES = [
             }
         ],
         mechanic: "microscope",
+        openingDialog: "[NOME], prepare-se — esta fase vai sacudir tudo o que você aprendeu até agora! Algumas misturas são traiçoeiras: parecem homogêneas a olho nu, mas escondem um segredo. Por isso, liberei o MICROSCÓPIO do laboratório para você. Analise cada amostra primeiro no microscópio e depois classifique. Cuidado com os coloides — eles adoram se disfarçar! 🔬",
+        transitionDialog: "Fantástico, [NOME]! Agora você sabe observar, classificar E usar o microscópio para desmascarar coloides. Falta a missão final: SEPARAR as misturas! O laboratório precisa que cada amostra seja separada corretamente. Você vai escolher entre 11 métodos diferentes de separação. A chave está nas propriedades dos materiais. Esta é a fase mais desafiadora — mas depois de tudo que você aprendeu, eu sei que vai dar conta!",
         options: [
             { label: "HOMOGÊNEA", value: "homo" },
             { label: "HETEROGÊNEA (Coloide)", value: "hetero" }
@@ -1376,7 +1543,9 @@ const PHASES = [
                 micro: "fat",
                 answer: "hetero",
                 hint: "O microscópio revela gotículas de gordura escondidas...",
-                feedback: "O leite é um coloide! A olho nu parece 1 fase, mas no microscópio vemos gotículas de gordura na água."
+                feedbackCorrect: "O leite é um coloide! A olho nu parece 1 fase, mas no microscópio vemos gotículas de gordura dispersas na água. Heterogênea disfarçada!",
+                feedbackRetry: "Hmm, o que o microscópio revelou? Apareceram partículas ou gotículas que não víamos a olho nu? Olhe de novo e tente novamente!",
+                feedbackFinal: "O microscópio revelou gotículas de gordura! Embora pareça uniforme a olho nu, o leite tem partículas de gordura suspensas na água. Isso é um coloide — uma mistura heterogênea disfarçada."
             },
             {
                 name: "Sangue",
@@ -1384,7 +1553,9 @@ const PHASES = [
                 micro: "cells",
                 answer: "hetero",
                 hint: "No microscópio, aparecem células sólidas flutuando...",
-                feedback: "Parece homogêneo, mas contém células sólidas (glóbulos vermelhos e brancos) flutuando no plasma líquido."
+                feedbackCorrect: "Parece homogêneo a olho nu, mas o microscópio revela células sólidas (glóbulos vermelhos e brancos) flutuando no plasma líquido. Heterogênea!",
+                feedbackRetry: "Quase! Observe a imagem do microscópio com atenção — há estruturas sólidas flutuando no líquido? O que isso indica? Tente de novo!",
+                feedbackFinal: "Veja o que o microscópio mostrou: células (glóbulos vermelhos e brancos) flutuando no plasma. São partículas sólidas em um líquido — duas fases detectadas no microscópio. É heterogênea!"
             },
             {
                 name: "Soro Fisiológico",
@@ -1392,7 +1563,9 @@ const PHASES = [
                 micro: "solution",
                 answer: "homo",
                 hint: "Mesmo no microscópio, você consegue ver alguma partícula?",
-                feedback: "O sal está dissolvido em nível molecular/iônico. Continua uniforme até no microscópio! Homogênea verdadeira."
+                feedbackCorrect: "O sal está dissolvido em nível molecular/iônico. Mesmo no microscópio a mistura continua uniforme — é uma solução verdadeira. Homogênea!",
+                feedbackRetry: "Não foi dessa vez! Observe o que o microscópio mostrou: apareceu alguma partícula ou a imagem continua uniforme? Pense nisso e tente novamente!",
+                feedbackFinal: "Atenção ao que o microscópio mostrou: nenhuma partícula visível! O sal no soro está dissolvido em nível molecular. Diferente dos coloides, aqui não há partículas suspensas — é homogênea de verdade."
             },
             {
                 name: "Maionese",
@@ -1400,7 +1573,9 @@ const PHASES = [
                 micro: "emulsion",
                 answer: "hetero",
                 hint: "A maionese é feita de óleo e água... Como estão organizados?",
-                feedback: "É uma emulsão! Gotículas de óleo microscópicas estabilizadas na água com ajuda do ovo. Heterogênea!"
+                feedbackCorrect: "É uma emulsão (tipo de coloide)! O microscópio revela gotículas de óleo microscópicas estabilizadas na água com ajuda da lecitina do ovo. Heterogênea!",
+                feedbackRetry: "Hmm, a maionese é feita de óleo e água. O microscópio mostrou essas duas partes separadas? Olhe com atenção e tente de novo!",
+                feedbackFinal: "O microscópio revelou gotículas de óleo dispersas na água! A maionese é uma emulsão — as gotículas são pequenas demais para ver a olho nu, mas estão lá. É heterogênea (coloide)."
             },
             {
                 name: "Gelatina",
@@ -1408,7 +1583,9 @@ const PHASES = [
                 micro: "network",
                 answer: "hetero",
                 hint: "Por dentro, há uma rede de fibras prendendo água...",
-                feedback: "Parece sólida e uniforme, mas é uma rede microscópica de proteínas que aprisiona a água. Coloide!"
+                feedbackCorrect: "Parece sólida e uniforme, mas o microscópio revela uma rede de fibras proteicas que aprisiona a água nos espaços. É um gel — um tipo de coloide. Heterogênea!",
+                feedbackRetry: "Quase! O microscópio revelou alguma estrutura interna — fibras ou redes? Isso indica que é uniforme de verdade ou tem partes escondidas? Tente novamente!",
+                feedbackFinal: "O microscópio mostrou uma rede de fibras! A gelatina parece uniforme, mas por dentro há uma estrutura de proteínas prendendo a água como uma esponja microscópica. Isso é um coloide — heterogênea."
             },
             {
                 name: "Tinta Nanquim",
@@ -1416,7 +1593,9 @@ const PHASES = [
                 micro: "ink",
                 answer: "hetero",
                 hint: "No microscópio, aparecem partículas sólidas de carbono dispersas...",
-                feedback: "A tinta nanquim é um coloide! Partículas de carbono (sólidas) ficam suspensas na água. Heterogênea no microscópio!"
+                feedbackCorrect: "A tinta nanquim é um coloide! O microscópio revela partículas de carbono (sólidas) suspensas na água. Heterogênea no nível microscópico!",
+                feedbackRetry: "Não foi dessa vez! O microscópio mostrou partículas sólidas dispersas no líquido? Se sim, o que isso significa sobre a classificação? Tente de novo!",
+                feedbackFinal: "O microscópio revelou partículas de carbono sólidas dispersas na água! Embora a tinta pareça uniformemente preta, essas partículas estão apenas suspensas, não dissolvidas. É um coloide — heterogênea."
             }
         ]
     },
@@ -1467,6 +1646,8 @@ const PHASES = [
             }
         ],
         mechanic: "tools",
+        openingDialog: "Última missão, [NOME], e a mais desafiadora! O laboratório está cheio de misturas que precisam ser separadas. Você já sabe observar, classificar e desmascarar coloides — agora vai usar tudo isso para escolher o MÉTODO DE SEPARAÇÃO correto para cada caso. São 11 métodos diferentes! Pense na propriedade que diferencia os materiais: tamanho? Densidade? Magnetismo? Ponto de ebulição? A resposta está sempre nas propriedades. Bora organizar este laboratório de uma vez por todas!",
+        transitionDialog: "[NOME]... eu não acredito... VOCÊ CONSEGUIU! Todas as amostras do laboratório foram analisadas, classificadas e separadas. De observar fases simples até dominar os métodos de separação e entender o tratamento de água — você percorreu o caminho completo de um cientista de verdade. É hora de receber o que você merece. Vamos ao seu certificado!",
         options: [],
         questions: [
             {
@@ -1480,7 +1661,12 @@ const PHASES = [
                     { label: "⚗️ Decantação", value: "decantacao" }
                 ],
                 hint: "As pedrinhas e o feijão têm tamanhos e aspectos diferentes. Dá para pegar com a mão?",
-                feedback: "Catação! Usamos as mãos para separar as pedrinhas do feijão, pois conseguimos ver e pegar cada uma pela diferença de aspecto."
+                feedbackCorrect: "Catação! Usamos as mãos ou pinça para separar as pedrinhas do feijão, pois conseguimos ver e pegar cada uma pela diferença de aspecto visual.",
+                errorFeedback: {
+                    peneiracao: "Peneiração separa por tamanho dos grãos usando furos padronizados. Mas pedrinhas e feijões podem ter tamanhos parecidos — a diferença aqui é o aspecto visual, não o tamanho. Pense em outro método! Tente novamente.",
+                    filtracao: "Filtração separa sólido de líquido usando um filtro. Aqui temos dois sólidos secos, sem líquido envolvido. Qual método funciona para separar sólidos pela aparência? Tente de novo.",
+                    decantacao: "Decantação usa a gravidade para separar por diferença de densidade, geralmente em líquidos ou suspensões. Aqui temos sólidos secos com aparências bem diferentes. Há um método mais direto! Tente novamente."
+                }
             },
             {
                 name: "Areia Grossa + Areia Fina",
@@ -1493,7 +1679,12 @@ const PHASES = [
                     { label: "📄 Filtração", value: "filtracao" }
                 ],
                 hint: "Os grãos têm tamanhos diferentes. Que instrumento tem furos de tamanho definido?",
-                feedback: "Peneiração! A peneira deixa a areia fina passar e retém a areia grossa. Separa por diferença de tamanho dos grãos."
+                feedbackCorrect: "Peneiração! A peneira tem furos que deixam a areia fina passar e retêm a areia grossa. Separa por diferença de tamanho dos grãos.",
+                errorFeedback: {
+                    catacao: "Catação é separação manual — mas os grãos de areia são muito pequenos para pegar um a um com a mão! Quando a diferença é de tamanho entre sólidos, usamos uma peneira. Tente de novo.",
+                    ventilacao: "Ventilação usa corrente de ar para separar materiais com grande diferença de peso. Areia grossa e fina têm densidades muito parecidas — a diferença é o tamanho, não o peso. Tente novamente.",
+                    filtracao: "Filtração separa sólido de líquido. Aqui temos dois sólidos secos com tamanhos diferentes — o instrumento certo é a peneira, não o filtro. Tente de novo."
+                }
             },
             {
                 name: "Preparar Café Coado",
@@ -1506,11 +1697,16 @@ const PHASES = [
                     { label: "📄 Peneiração", value: "peneiracao" }
                 ],
                 hint: "O pó de café é sólido, e queremos a água saborizada. O filtro de papel faz o quê?",
-                feedback: "Filtração! O filtro de papel retém o pó de café (sólido) e deixa passar a água com o sabor do café (líquido)."
+                feedbackCorrect: "Filtração! O filtro de papel retém o pó de café (sólido) e deixa passar a água com o sabor do café (líquido). É o método perfeito para sólido + líquido!",
+                errorFeedback: {
+                    decantacao: "Decantação exigiria esperar o pó decantar por gravidade — seria lento e ineficiente para partículas tão finas. Queremos separar um sólido fino de um líquido. Que material com poros pequenos faria isso? Tente novamente.",
+                    evaporacao: "Evaporação faria a água evaporar e sobraria o pó seco. Mas queremos justamente o líquido saborizado, não o sólido! Pense em um método que retenha o sólido e deixe o líquido passar. Tente de novo.",
+                    peneiracao: "Peneiração separa sólidos secos de tamanhos diferentes. Aqui temos um sólido fino misturado a um líquido — o desafio é reter o pó e deixar o líquido passar. Pense no que acontece quando você prepara café em casa! Tente novamente."
+                }
             },
             {
                 name: "Água + Óleo de Cozinha",
-                visual: { type: "liquid", layers: [{ class: "layer-water", height: 45 }, { class: "layer-oil", height: 25 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-oil", height: 25 }, { class: "layer-water", height: 45 }] },
                 answer: "decantacao",
                 options: [
                     { label: "⚗️ Decantação", value: "decantacao" },
@@ -1519,7 +1715,12 @@ const PHASES = [
                     { label: "✋ Catação", value: "catacao" }
                 ],
                 hint: "São dois líquidos imiscíveis com densidades diferentes...",
-                feedback: "Decantação! No funil de decantação, a água (mais densa) desce e o óleo (menos denso) fica em cima."
+                feedbackCorrect: "Decantação! No funil de decantação, a água (mais densa) desce e o óleo (menos denso) fica em cima. Separamos pela diferença de densidade entre líquidos imiscíveis.",
+                errorFeedback: {
+                    filtracao: "Filtração separa sólido de líquido. Aqui temos dois líquidos — ambos passariam pelo filtro! Pense: esses líquidos se misturam? Se não, a diferença de densidade pode ser a chave. Tente de novo.",
+                    evaporacao: "Evaporação aqueceria a mistura, mas o óleo pode degradar com o calor. Há um método mais simples que aproveita o fato de esses líquidos ficarem em camadas separadas. Tente novamente.",
+                    catacao: "Catação é separação manual de sólidos. Não dá para pegar líquidos com a mão! Pense na propriedade que faz esses dois líquidos ficarem em camadas — um mais denso embaixo, outro menos denso em cima. Tente de novo."
+                }
             },
             {
                 name: "Limalha de Ferro + Areia",
@@ -1532,7 +1733,12 @@ const PHASES = [
                     { label: "⚗️ Decantação", value: "decantacao" }
                 ],
                 hint: "Um dos componentes é atraído por um campo magnético...",
-                feedback: "Separação Magnética! O ímã atrai apenas o ferro (material ferromagnético) e a areia fica para trás."
+                feedbackCorrect: "Separação Magnética! O ímã atrai apenas o ferro (material ferromagnético) e a areia não magnética fica para trás. Usamos a propriedade do magnetismo!",
+                errorFeedback: {
+                    peneiracao: "Peneiração separa por tamanho, mas limalha de ferro e grãos de areia podem ter dimensões parecidas. A diferença aqui não é o tamanho — é uma propriedade física exclusiva de um dos componentes. Tente de novo.",
+                    ventilacao: "Ventilação separa por diferença de peso com corrente de ar. Ferro e areia em grãos pequenos têm pesos semelhantes. Pense: o ferro tem alguma propriedade especial que a areia não tem? Tente novamente.",
+                    decantacao: "Decantação usa diferença de densidade em líquidos ou suspensões. Aqui temos dois sólidos secos. Um deles tem uma propriedade física única — pense no que torna o ferro diferente de outros materiais. Tente de novo."
+                }
             },
             {
                 name: "Separar Cascas do Arroz",
@@ -1545,24 +1751,16 @@ const PHASES = [
                     { label: "🌊 Flotação", value: "flotacao" }
                 ],
                 hint: "As cascas são muito mais leves que os grãos. Uma corrente de ar resolve...",
-                feedback: "Ventilação! O ar sopra as cascas (mais leves) para longe, enquanto os grãos de arroz (mais pesados) ficam."
-            },
-            {
-                name: "Serragem + Areia (com água)",
-                visual: { type: "liquid", layers: [{ class: "layer-sand", height: 15 }, { class: "layer-water", height: 45 }, { class: "layer-wood", height: 8 }] },
-                answer: "flotacao",
-                options: [
-                    { label: "🌊 Flotação", value: "flotacao" },
-                    { label: "🌊 Levigação", value: "levigacao" },
-                    { label: "⚗️ Decantação", value: "decantacao" },
-                    { label: "📄 Filtração", value: "filtracao" }
-                ],
-                hint: "Adicionando água: a serragem flutua e a areia afunda...",
-                feedback: "Flotação! Com água, a serragem (menos densa) flutua e a areia (mais densa) afunda. A água separa pela diferença de densidade."
+                feedbackCorrect: "Ventilação! Uma corrente de ar sopra as cascas (muito mais leves) para longe, enquanto os grãos de arroz (mais pesados e densos) permanecem. O ar separa pela grande diferença de densidade!",
+                errorFeedback: {
+                    peneiracao: "Peneiração separa por tamanho, mas cascas e grãos de arroz podem ter dimensões parecidas. A grande diferença aqui é o peso — cascas são muito mais leves que os grãos. Que método usa essa diferença? Tente de novo.",
+                    catacao: "Catação funcionaria, mas imagine separar milhares de cascas manualmente — seria extremamente lento! Existe um método que aproveita a grande diferença de peso entre cascas (leves) e grãos (pesados) de forma automática. Tente novamente.",
+                    flotacao: "Flotação usa água para separar por densidade. Funcionaria, mas exigiria molhar o arroz. Há um método que também usa a diferença de peso, mas sem adicionar água. Pense no que poderia carregar as cascas leves sem molhar nada. Tente de novo."
+                }
             },
             {
                 name: "Garimpeiro: Ouro + Areia no Rio",
-                visual: { type: "liquid", layers: [{ class: "layer-sand", height: 20 }, { class: "layer-water", height: 50 }] },
+                visual: { type: "liquid", layers: [{ class: "layer-water", height: 50 }, { class: "layer-sand", height: 20 }] },
                 answer: "levigacao",
                 options: [
                     { label: "🌊 Levigação", value: "levigacao" },
@@ -1571,7 +1769,12 @@ const PHASES = [
                     { label: "📄 Peneiração", value: "peneiracao" }
                 ],
                 hint: "A água corrente do rio arrasta a areia (leve) e o ouro (muito denso) fica...",
-                feedback: "Levigação! A água corrente arrasta a areia (mais leve) e o ouro (muito mais denso) permanece na bateia do garimpeiro."
+                feedbackCorrect: "Levigação! A água corrente do rio arrasta a areia (mais leve) e o ouro (muito mais denso) permanece na bateia. É o método clássico dos garimpeiros!",
+                errorFeedback: {
+                    flotacao: "Flotação usa água parada: o menos denso flutua e o mais denso afunda. Mas o garimpeiro trabalha com a correnteza do rio — a água em movimento arrasta um material e o outro fica. É um mecanismo parecido, porém diferente. Tente de novo.",
+                    decantacao: "Decantação é separação por gravidade em repouso. O garimpeiro não deixa a mistura parada — ele usa a água corrente (em movimento) para arrastar o material mais leve enquanto o mais denso permanece na bateia. Tente novamente.",
+                    peneiracao: "Peneiração separa por tamanho dos grãos. Ouro e areia podem ter dimensões parecidas — a diferença não é o tamanho, mas a densidade. O ouro é muito mais denso, e o garimpeiro usa a água do rio a seu favor. Tente de novo."
+                }
             },
             {
                 name: "Sangue no Laboratório",
@@ -1584,7 +1787,12 @@ const PHASES = [
                     { label: "🔥 Destilação", value: "destilacao" }
                 ],
                 hint: "O sangue tem células (densas) e plasma (leve). Uma máquina que gira muito rápido resolve...",
-                feedback: "Centrifugação! O aparelho gira o sangue em alta velocidade, forçando as células (mais densas) para o fundo. É uma decantação acelerada!"
+                feedbackCorrect: "Centrifugação! O aparelho gira o sangue em alta velocidade, forçando as células (mais densas) para o fundo rapidamente. É uma decantação acelerada pela rotação!",
+                errorFeedback: {
+                    decantacao: "Decantação simples funcionaria em teoria, mas seria extremamente lenta para o sangue. Em laboratórios, existe um aparelho que faz o mesmo princípio (separar por densidade) de forma acelerada, girando em alta velocidade. Tente de novo.",
+                    filtracao: "Filtração poderia danificar as células do sangue e não separaria eficientemente os componentes. Pense em um método de laboratório que separa por densidade sem destruir as células — usando rotação rápida. Tente novamente.",
+                    destilacao: "Destilação envolve aquecer até ferver — isso destruiria as células do sangue! Precisamos de um método que separe por densidade sem calor. Pense: que aparelho de laboratório gira amostras em alta velocidade? Tente de novo."
+                }
             },
             {
                 name: "Sal da Água do Mar (Salinas)",
@@ -1597,7 +1805,12 @@ const PHASES = [
                     { label: "⚗️ Decantação", value: "decantacao" }
                 ],
                 hint: "O sal está dissolvido (mistura homogênea). O sol aquece... a água some... e o sal?",
-                feedback: "Evaporação! Nas salinas, o sol aquece a água do mar. A água evapora e os cristais de sal ficam no fundo."
+                feedbackCorrect: "Evaporação! Nas salinas, o sol aquece a água do mar. A água evapora lentamente e os cristais de sal ficam depositados no fundo. Queremos o sal — não a água!",
+                errorFeedback: {
+                    destilacao: "Destilação também aquece a mistura, mas condensa e recupera a água. Mas nas salinas o objetivo é obter o sal, não a água. Existe um método mais simples que usa o calor do sol e não precisa condensar nada. Tente de novo.",
+                    filtracao: "Filtração não funciona aqui porque o sal está dissolvido — ele passaria pelo filtro junto com a água! Quando o soluto está dissolvido, precisamos remover o solvente. Pense no que o sol faz com a água ao longo dos dias. Tente novamente.",
+                    decantacao: "Decantação separa por gravidade, mas o sal está dissolvido na água — não existe nada para decantar! Para obter o sal de uma mistura homogênea, precisamos que o solvente vá embora. Pense no papel do sol nas salinas. Tente de novo."
+                }
             },
             {
                 name: "Obter Água Pura de Água Salgada",
@@ -1610,7 +1823,12 @@ const PHASES = [
                     { label: "⚗️ Decantação", value: "decantacao" }
                 ],
                 hint: "Queremos recuperar a ÁGUA pura, não só o sal. A evaporação perde a água...",
-                feedback: "Destilação Simples! A água ferve, vira vapor, é resfriada em outro recipiente e volta a ser líquida pura. Diferente da evaporação, aqui recuperamos o líquido!"
+                feedbackCorrect: "Destilação Simples! A água ferve, vira vapor, é resfriada (condensada) em outro recipiente e volta a ser líquida pura. Diferente da evaporação, aqui recuperamos o líquido!",
+                errorFeedback: {
+                    evaporacao: "Quase! Na evaporação a água iria para o ar e perderíamos ela. Aqui queremos justamente a água pura! Existe um método que também aquece, mas condensa o vapor de volta para líquido. Tente de novo.",
+                    filtracao: "O sal está dissolvido na água — ele passaria pelo filtro! Filtração não separa solutos dissolvidos. Precisamos de um método que use a diferença de ponto de ebulição e recupere o líquido puro. Tente novamente.",
+                    decantacao: "Decantação separa misturas heterogêneas por gravidade. Água salgada é homogênea — o sal está dissolvido. Para recuperar a água pura, precisamos de um método que transforme a água em vapor e depois a recupere como líquido. Tente de novo."
+                }
             },
             {
                 name: "Água Barrenta em Repouso",
@@ -1623,7 +1841,37 @@ const PHASES = [
                     { label: "🔄 Centrifugação", value: "centrifugacao" }
                 ],
                 hint: "O barro é mais denso que a água. Com o tempo em repouso...",
-                feedback: "Decantação (Sedimentação)! Em repouso, o barro (mais denso) desce para o fundo pela ação da gravidade, deixando a água mais limpa em cima."
+                feedbackCorrect: "Decantação (Sedimentação)! Em repouso, o barro (mais denso) desce para o fundo pela ação da gravidade, deixando a água mais limpa em cima. Simples e natural!",
+                errorFeedback: {
+                    filtracao: "Filtração funcionaria, mas existe um método ainda mais simples que não precisa de nenhum equipamento — basta tempo e gravidade. O barro é mais denso que a água. O que acontece quando deixamos em repouso? Tente de novo.",
+                    evaporacao: "Evaporação faria a água evaporar e sobraria o barro seco. Mas queremos a água limpa, não o barro! Pense: o barro é mais denso que a água — o que a gravidade faz com ele ao longo do tempo? Tente novamente.",
+                    centrifugacao: "Centrifugação funcionaria, mas é como usar um canhão para matar uma formiga! A água barrenta se separa facilmente sem equipamentos — o barro é bem mais denso que a água. Basta usar a força mais básica da natureza. Tente de novo."
+                }
+            },
+            {
+                name: "Desafio Final — Etapas do Tratamento de Água",
+                mechanic: "ordering",
+                visual: { type: "liquid", layers: [{ class: "layer-water", height: 70 }] },
+                preCard: {
+                    icon: "🚰",
+                    title: "SEPARAÇÃO DE MISTURAS NO TRATAMENTO DE ÁGUA",
+                    body: '<span class="card-warning">VOCÊ SABIA?</span> Quase todos os métodos que você estudou são aplicados em escala real neste processo contínuo de separação de misturas (homogêneas e heterogêneas) para purificar a água que consumimos:<br><br><div style="text-align:left;">🔹 <span class="card-highlight">CAPTAÇÃO</span> – Coleta da água bruta diretamente de rios ou represas para o sistema.<br>🔹 <span class="card-highlight">GRADEAMENTO</span> – Barreira física onde grades retêm resíduos grandes, como folhas e lixo.<br>🔹 <span class="card-highlight">COAGULAÇÃO/FLOCULAÇÃO</span> – Adição de produtos químicos para agrupar a sujeira fina em flocos maiores.<br>🔹 <span class="card-highlight">DECANTAÇÃO</span> – Repouso onde os flocos, por serem mais densos, sedimentam no fundo do tanque pela gravidade.<br>🔹 <span class="card-highlight">FILTRAÇÃO</span> – Passagem por camadas de areia e carvão que retêm as partículas menores que não decantaram.<br>🔹 <span class="card-highlight">DESINFECÇÃO</span> – Etapa química com cloro para eliminar microrganismos patogênicos, como bactérias e vírus.<br>🔹 <span class="card-highlight">CORREÇÃO pH/FLUORETAÇÃO</span> – Ajuste da acidez para preservar a rede de tubulações e adição de flúor para a prevenção de cáries.<br>🔹 <span class="card-highlight">RESERVATÓRIO/DISTRIBUIÇÃO</span> – Armazenamento da água já potável antes do envio final para as residências.</div>'
+                },
+                answer: ["captacao", "gradeamento", "coagulacao", "decantacao", "filtracao", "desinfeccao", "ph_fluor", "reservatorio"],
+                steps: [
+                    { id: "captacao", label: "🏞️ Captação", order: 1 },
+                    { id: "gradeamento", label: "🪵 Gradeamento", order: 2 },
+                    { id: "coagulacao", label: "🧪 Coagulação e Floculação", order: 3 },
+                    { id: "decantacao", label: "⬇️ Decantação", order: 4 },
+                    { id: "filtracao", label: "📄 Filtração", order: 5 },
+                    { id: "desinfeccao", label: "🦠 Desinfecção (cloro)", order: 6 },
+                    { id: "ph_fluor", label: "⚗️ Correção de pH e Fluoretação", order: 7 },
+                    { id: "reservatorio", label: "🏠 Reservatório e Distribuição", order: 8 }
+                ],
+                hint: "Pense no caminho da água: primeiro ela é retirada da natureza, depois passam os materiais grandes, depois os flocos, depois a gravidade age, depois os filtros limpam o resto, depois matamos os germes, ajustamos a química e finalmente... ela chega na sua casa!",
+                feedbackCorrect: "PERFEITO! Você dominou a sequência completa do tratamento de água! Da captação no rio até a água chegando na sua torneira — cada etapa usa um princípio de separação que você aprendeu neste jogo. A Ciência está em todo lugar, inclusive na água que você bebe todos os dias!",
+                feedbackRetry: "Quase! Algumas etapas estão fora de ordem. Lembre-se da lógica: primeiro retiramos a água da natureza, depois removemos os materiais maiores, depois os menores, depois os microscópicos, depois os invisíveis (germes), e por último ajustamos a química antes de distribuir. Tente reorganizar!",
+                feedbackFinal: "Hmm, várias etapas estão fora de posição. Releia o card explicativo e pense no caminho da água: da natureza → limpeza de materiais grandes → médios → pequenos → microrganismos → ajustes finais → sua casa. Tente novamente!"
             }
         ]
     }
@@ -1644,7 +1892,10 @@ let state = {
     microscopeUsed: false,
     answeredThisQuestion: false,
     usedHintThisQuestion: false,
-    gotWrongThisQuestion: false
+    gotWrongThisQuestion: false,
+    preCardShown: false,
+    orderAttempts: 0,
+    currentOrder: []
 };
 
 // ===== SCREEN MANAGEMENT =====
@@ -1755,13 +2006,39 @@ function prevCard() {
 
 // ===== GAME QUESTIONS =====
 function startPhaseQuestions() {
+    const phase = PHASES[state.currentPhase];
     state.currentQuestion = 0;
     state.phaseFirstTryCorrect = 0;
     state.hintsUsedThisPhase = 0;
-    state.phaseQuestionCount = PHASES[state.currentPhase].questions.length;
+    state.phaseQuestionCount = phase.questions.length;
 
     showScreen('screen-game');
-    loadQuestion();
+
+    // Show opening dialogue before first question
+    if (phase.openingDialog) {
+        const dialog = phase.openingDialog.replace(/\[NOME\]/g, state.playerName);
+        document.getElementById('game-phase-label').textContent = phase.title;
+        document.getElementById('game-item-name').textContent = '';
+        document.getElementById('game-q-counter').textContent = '';
+        document.getElementById('hint-text').textContent = '';
+        document.getElementById('beaker-glass').innerHTML = '';
+        document.getElementById('microscope-overlay').classList.remove('active');
+        const qMark2 = document.getElementById('beaker-question-mark');
+        if (qMark2) qMark2.style.display = 'block';
+        setRobotEmotion('robot-game', 'happy');
+
+        const area = document.getElementById('interaction-area');
+        area.innerHTML = '';
+        const btn = document.createElement('button');
+        btn.className = 'btn btn-start';
+        btn.textContent = '🎮 VAMOS LÁ!';
+        btn.onclick = () => { playSound('click'); loadQuestion(); };
+        area.appendChild(btn);
+
+        typeText('game-dialog-text', dialog, null);
+    } else {
+        loadQuestion();
+    }
 }
 
 function loadQuestion() {
@@ -1779,6 +2056,15 @@ function loadQuestion() {
     state.answeredThisQuestion = false;
     state.usedHintThisQuestion = false;
     state.gotWrongThisQuestion = false;
+    state.orderAttempts = 0;
+
+    // Check for preCard (e.g., water treatment card before Q12)
+    if (q.preCard && !state.preCardShown) {
+        state.preCardShown = true;
+        showPreCard(q.preCard, () => loadQuestion());
+        return;
+    }
+    state.preCardShown = false;
 
     // Update UI
     document.getElementById('game-phase-label').textContent = phase.title;
@@ -1796,9 +2082,8 @@ function loadQuestion() {
     document.getElementById('microscope-overlay').classList.remove('active');
 
     // Dialog
-    // Dialog adapted per phase
     let questionPrompt = '';
-    const mechanic = PHASES[state.currentPhase].mechanic;
+    const mechanic = q.mechanic || phase.mechanic;
     if (mechanic === 'phases_count') {
         questionPrompt = 'Quantas fases você observa?';
     } else if (mechanic === 'classify') {
@@ -1807,13 +2092,179 @@ function loadQuestion() {
         questionPrompt = 'Use o microscópio e classifique!';
     } else if (mechanic === 'tools') {
         questionPrompt = 'Qual o método de separação correto?';
+    } else if (mechanic === 'ordering') {
+        questionPrompt = 'Coloque as etapas na ordem correta, da captação até a distribuição!';
     }
 
-    typeText('game-dialog-text', `${state.playerName}, analisando: ${q.name}. ${questionPrompt}`, () => {
-        buildButtons(phase, q);
+    typeText('game-dialog-text', `${state.playerName}, ${mechanic === 'ordering' ? 'desafio final! O Pixel embaralhou as etapas do tratamento de água. ' + questionPrompt : 'analisando: ' + q.name + '. ' + questionPrompt}`, () => {
+        if (mechanic === 'ordering') {
+            buildOrderingUI(q);
+        } else {
+            buildButtons(phase, q);
+        }
     });
 
     updateProgressBar();
+    updateHeader();
+}
+
+function showPreCard(cardData, callback) {
+    // Show as a full explanation screen (like phase cards)
+    showScreen('screen-cards');
+    document.getElementById('cards-title').textContent = 'FASE 4: O SEPARADOR';
+
+    const cardDisplay = document.getElementById('card-display');
+    cardDisplay.innerHTML = `
+        <div class="card-icon" style="font-size:36px;margin-bottom:12px;">${cardData.icon}</div>
+        <div class="card-title" style="font-size:11px;color:var(--yellow);margin-bottom:14px;line-height:1.8;">${cardData.title}</div>
+        <div class="card-body" style="font-size:8px;color:var(--white);line-height:2.4;text-align:center;max-width:580px;margin:0 auto;">${cardData.body}</div>
+        <br>
+        <button class="btn btn-start" id="precard-go-btn">🎮 VAMOS AO DESAFIO! ▶</button>
+    `;
+
+    // Hide card nav (use button inside card instead)
+    document.getElementById('card-dots').innerHTML = '';
+    document.getElementById('card-prev').style.display = 'none';
+    document.getElementById('card-next').style.display = 'none';
+
+    document.getElementById('precard-go-btn').onclick = () => {
+        playSound('click');
+        // Restore card nav for future use
+        document.getElementById('card-prev').style.display = '';
+        document.getElementById('card-next').style.display = '';
+        showScreen('screen-game');
+        if (callback) callback();
+    };
+}
+
+function buildOrderingUI(question) {
+    const area = document.getElementById('interaction-area');
+    area.innerHTML = '';
+
+    // Shuffle steps
+    const shuffled = [...question.steps].sort(() => Math.random() - 0.5);
+    state.currentOrder = shuffled.map(s => s.id);
+
+    const listDiv = document.createElement('div');
+    listDiv.className = 'order-list';
+    listDiv.id = 'order-list';
+
+    function renderOrderList() {
+        listDiv.innerHTML = '';
+        state.currentOrder.forEach((stepId, idx) => {
+            const stepData = question.steps.find(s => s.id === stepId);
+            const item = document.createElement('div');
+            item.className = 'order-item';
+            item.innerHTML = `
+                <span class="order-number">${idx + 1}ª</span>
+                <span>${stepData.label}</span>
+                <span class="order-arrows">
+                    <button class="order-arrow" data-dir="up" data-idx="${idx}" ${idx === 0 ? 'disabled style="opacity:0.3"' : ''}>▲</button>
+                    <button class="order-arrow" data-dir="down" data-idx="${idx}" ${idx === state.currentOrder.length - 1 ? 'disabled style="opacity:0.3"' : ''}>▼</button>
+                </span>
+            `;
+            listDiv.appendChild(item);
+        });
+
+        // Add arrow event listeners
+        listDiv.querySelectorAll('.order-arrow').forEach(arrow => {
+            arrow.onclick = () => {
+                const idx = parseInt(arrow.dataset.idx);
+                const dir = arrow.dataset.dir;
+                if (dir === 'up' && idx > 0) {
+                    [state.currentOrder[idx], state.currentOrder[idx-1]] = [state.currentOrder[idx-1], state.currentOrder[idx]];
+                } else if (dir === 'down' && idx < state.currentOrder.length - 1) {
+                    [state.currentOrder[idx], state.currentOrder[idx+1]] = [state.currentOrder[idx+1], state.currentOrder[idx]];
+                }
+                playSound('click');
+                renderOrderList();
+            };
+        });
+    }
+
+    renderOrderList();
+    area.appendChild(listDiv);
+
+    // Confirm button
+    const confirmBtn = document.createElement('button');
+    confirmBtn.className = 'btn btn-start';
+    confirmBtn.style.marginTop = '10px';
+    confirmBtn.textContent = '✅ CONFIRMAR ORDEM';
+    confirmBtn.onclick = () => handleOrderAnswer(question, confirmBtn);
+    area.appendChild(confirmBtn);
+
+    // Hint button
+    const hintBtn = document.createElement('button');
+    hintBtn.className = 'btn hint-btn';
+    hintBtn.innerHTML = '💡 PEDIR DICA AO PIXEL';
+    hintBtn.onclick = () => {
+        if (!state.hintUsed) {
+            state.hintUsed = true;
+            state.usedHintThisQuestion = true;
+            state.hintsUsedThisPhase++;
+            document.getElementById('hint-text').textContent = '💡 PIXEL: ' + question.hint;
+            hintBtn.disabled = true;
+            playSound('click');
+        }
+    };
+    area.appendChild(hintBtn);
+}
+
+function handleOrderAnswer(question, confirmBtn) {
+    if (state.isTyping || state.answeredThisQuestion) return;
+
+    const correct = question.answer;
+    const isCorrect = JSON.stringify(state.currentOrder) === JSON.stringify(correct);
+
+    if (isCorrect) {
+        state.answeredThisQuestion = true;
+        confirmBtn.disabled = true;
+        setRobotEmotion('robot-game', 'happy');
+        playSound('success');
+
+        if (!state.gotWrongThisQuestion) {
+            state.phaseFirstTryCorrect++;
+            state.totalFirstTryCorrect++;
+        }
+        state.totalQuestionsAnswered++;
+
+        // Highlight all as correct and hide question mark
+        const qMark3 = document.getElementById('beaker-question-mark');
+        if (qMark3) qMark3.style.display = 'none';
+        document.querySelectorAll('.order-item').forEach(item => item.classList.add('correct'));
+
+        typeText('game-dialog-text', `✅ ACERTOU! ${question.feedbackCorrect}`, () => {
+            setTimeout(() => {
+                state.currentQuestion++;
+                loadQuestion();
+            }, 4000);
+        });
+    } else {
+        state.gotWrongThisQuestion = true;
+        state.orderAttempts = (state.orderAttempts || 0) + 1;
+        setRobotEmotion('robot-game', 'sad');
+        playSound('error');
+
+        // Highlight correct/wrong positions
+        const items = document.querySelectorAll('.order-item');
+        items.forEach((item, idx) => {
+            if (state.currentOrder[idx] === correct[idx]) {
+                item.classList.add('correct');
+            } else {
+                item.classList.add('wrong');
+            }
+        });
+
+        const fb = state.orderAttempts >= 2 ? (question.feedbackFinal || question.feedbackRetry) : question.feedbackRetry;
+        typeText('game-dialog-text', `❌ ${fb}`, () => {
+            setTimeout(() => {
+                setRobotEmotion('robot-game', '');
+                items.forEach(item => {
+                    item.classList.remove('correct', 'wrong');
+                });
+            }, 3000);
+        });
+    }
     updateHeader();
 }
 
@@ -1823,7 +2274,12 @@ function renderVisual(visual) {
     const display = document.getElementById('experiment-display');
 
     glass.innerHTML = '';
+    glass.style.opacity = '1';
     frame.style.display = 'flex';
+
+    // Hide question mark (only shows on opening dialog)
+    const qMark = document.getElementById('beaker-question-mark');
+    if (qMark) qMark.style.display = 'none';
 
     // Reset special items
     display.querySelectorAll('.special-visual').forEach(el => el.remove());
@@ -1879,10 +2335,14 @@ function renderVisual(visual) {
     } else if (visual.type === 'fruits') {
         frame.style.display = 'flex';
         const colors = ['var(--red)', 'var(--yellow)', 'var(--orange)', 'var(--green)', 'var(--pink)'];
-        glass.innerHTML = '<div class="special-item"><div class="fruits-container">' +
-            Array.from({length: 20}, () =>
-                `<div class="pixel-fruit" style="background:${colors[Math.floor(Math.random()*colors.length)]}"></div>`
-            ).join('') + '</div></div>';
+        // Fill entire beaker with colored squares
+        const cols = 8;
+        const rows = 10;
+        const total = cols * rows;
+        glass.innerHTML = '<div style="width:100%;height:100%;display:grid;grid-template-columns:repeat(' + cols + ',1fr);grid-template-rows:repeat(' + rows + ',1fr);gap:2px;padding:3px;">' +
+            Array.from({length: total}, () =>
+                `<div style="background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:2px;"></div>`
+            ).join('') + '</div>';
     } else if (visual.type === 'sand_iron') {
         frame.style.display = 'flex';
         glass.innerHTML = `<div class="beaker-layer layer-sand" style="height:60px; position:relative;">` +
@@ -1954,12 +2414,8 @@ function renderMicroscope(microType) {
             content.appendChild(p);
         }
     } else if (microType === 'solution') {
-        // Soro fisiológico - uniform
+        // Soro fisiológico - uniform (no particles, just clean background)
         content.style.background = 'rgba(41,173,255,0.15)';
-        const label = document.createElement('div');
-        label.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:7px;color:var(--blue);text-align:center;font-family:"Press Start 2P";line-height:2;';
-        label.textContent = 'UNIFORME';
-        content.appendChild(label);
     } else if (microType === 'emulsion') {
         // Maionese - oil droplets in water
         for (let i = 0; i < 20; i++) {
@@ -1993,17 +2449,17 @@ function renderMicroscope(microType) {
             content.appendChild(f2);
         }
     } else if (microType === 'ink') {
-        // Tinta nanquim - carbon particles
-        for (let i = 0; i < 35; i++) {
+        // Tinta nanquim - carbon particles (dark, visible)
+        for (let i = 0; i < 30; i++) {
             const p = document.createElement('div');
             p.className = 'micro-particle';
-            const size = (2 + Math.random()*4);
+            const size = (3 + Math.random()*5);
             p.style.width = size + 'px';
             p.style.height = size + 'px';
-            p.style.background = '#1a1a2e';
+            p.style.background = '#111';
             p.style.borderRadius = '50%';
-            p.style.left = (Math.random()*90) + '%';
-            p.style.top = (Math.random()*90) + '%';
+            p.style.left = (Math.random()*85) + '%';
+            p.style.top = (Math.random()*85) + '%';
             content.appendChild(p);
         }
     }
@@ -2025,9 +2481,10 @@ function buildButtons(phase, question) {
             state.microscopeUsed = true;
             renderMicroscope(question.micro);
             document.getElementById('microscope-overlay').classList.add('active');
+            document.getElementById('beaker-glass').style.opacity = '0';
             playSound('star');
-            microBtn.disabled = true;
-            microBtn.textContent = '🔬 MICROSCÓPIO ATIVO';
+            // Switch to toggle mode
+            microBtn.style.display = 'none';
             backBtn.style.display = 'inline-block';
         };
         microBtnRow.appendChild(microBtn);
@@ -2038,28 +2495,26 @@ function buildButtons(phase, question) {
         backBtn.style.display = 'none';
         backBtn.onclick = () => {
             document.getElementById('microscope-overlay').classList.remove('active');
+            document.getElementById('beaker-glass').style.opacity = '1';
             playSound('click');
+            backBtn.style.display = 'none';
+            reopenBtn.style.display = 'inline-block';
         };
         microBtnRow.appendChild(backBtn);
 
-        // Re-open microscope button
         const reopenBtn = document.createElement('button');
-        reopenBtn.className = 'btn';
+        reopenBtn.className = 'btn btn-lupa';
         reopenBtn.innerHTML = '🔬 VER MICROSCÓPIO';
         reopenBtn.style.display = 'none';
         reopenBtn.onclick = () => {
             document.getElementById('microscope-overlay').classList.add('active');
+            document.getElementById('beaker-glass').style.opacity = '0';
             playSound('click');
-        };
-
-        backBtn.addEventListener('click', () => {
-            reopenBtn.style.display = 'inline-block';
-        });
-        reopenBtn.addEventListener('click', () => {
             reopenBtn.style.display = 'none';
-        });
-
+            backBtn.style.display = 'inline-block';
+        };
         microBtnRow.appendChild(reopenBtn);
+
         area.appendChild(microBtnRow);
     }
 
@@ -2082,13 +2537,13 @@ function buildButtons(phase, question) {
     // Hint button
     const hintBtn = document.createElement('button');
     hintBtn.className = 'btn hint-btn';
-    hintBtn.innerHTML = '💡 DICA';
+    hintBtn.innerHTML = '💡 PEDIR DICA AO PIXEL';
     hintBtn.onclick = () => {
         if (!state.hintUsed) {
             state.hintUsed = true;
             state.usedHintThisQuestion = true;
             state.hintsUsedThisPhase++;
-            document.getElementById('hint-text').textContent = '💡 ' + question.hint;
+            document.getElementById('hint-text').textContent = '💡 PIXEL: ' + question.hint;
             hintBtn.disabled = true;
             playSound('click');
         }
@@ -2116,16 +2571,21 @@ function handleAnswer(value, btnEl, question) {
         setRobotEmotion('robot-game', 'happy');
         playSound('success');
 
-        if (!state.gotWrongThisQuestion && !state.usedHintThisQuestion) {
+        // Dica é gratuita — só penaliza se errou antes
+        if (!state.gotWrongThisQuestion) {
             state.phaseFirstTryCorrect++;
             state.totalFirstTryCorrect++;
         }
         state.totalQuestionsAnswered++;
 
-        // Hide microscope
+        // Hide microscope and question mark, restore beaker
         document.getElementById('microscope-overlay').classList.remove('active');
+        document.getElementById('beaker-glass').style.opacity = '1';
+        const qMark = document.getElementById('beaker-question-mark');
+        if (qMark) qMark.style.display = 'none';
 
-        typeText('game-dialog-text', `✅ ACERTOU! ${question.feedback}`, () => {
+        const fb = question.feedbackCorrect || question.feedback || '';
+        typeText('game-dialog-text', `✅ ACERTOU! ${fb}`, () => {
             setTimeout(() => {
                 state.currentQuestion++;
                 loadQuestion();
@@ -2139,14 +2599,29 @@ function handleAnswer(value, btnEl, question) {
         setRobotEmotion('robot-game', 'sad');
         playSound('error');
 
-        typeText('game-dialog-text', `❌ Não foi dessa vez... ${question.feedback} Tente novamente!`, () => {
+        // Determine error feedback
+        let errorMsg = '';
+        if (question.errorFeedback && question.errorFeedback[value]) {
+            // Phase 4: specific feedback per wrong option
+            errorMsg = question.errorFeedback[value];
+        } else if (question.feedbackRetry) {
+            // Phases 1-3: generic retry feedback
+            errorMsg = question.feedbackRetry;
+        } else {
+            errorMsg = 'Não foi dessa vez... Tente novamente!';
+        }
+
+        typeText('game-dialog-text', `❌ ${errorMsg}`, () => {
             setTimeout(() => {
                 setRobotEmotion('robot-game', '');
                 allBtns.forEach(b => {
-                    b.disabled = false;
                     b.classList.remove('btn-wrong');
+                    // Re-enable only buttons that weren't previously wrong
+                    if (b.style.opacity !== '0.4') {
+                        b.disabled = false;
+                    }
                 });
-                // Disable the wrong button so they can't pick it again
+                // Disable the wrong button permanently
                 btnEl.disabled = true;
                 btnEl.style.opacity = '0.4';
             }, 2500);
@@ -2169,7 +2644,7 @@ function showPhaseResult() {
     else if (pct >= 50) phaseStars = 1;
 
     // Render
-    document.getElementById('result-phase-title').textContent = phase.title + ' COMPLETA!';
+    document.getElementById('result-phase-title').textContent = phase.title + ' COMPLETO!';
 
     const starsEl = document.getElementById('result-stars');
     starsEl.innerHTML = '';
@@ -2229,16 +2704,26 @@ function showCertificate() {
     else if (pct >= 70) stars = 2;
     else if (pct >= 50) stars = 1;
 
-    let rank, rankEmoji;
-    if (stars === 3) { rank = "MESTRE DAS MISTURAS"; rankEmoji = "🏆"; }
-    else if (stars === 2) { rank = "CIENTISTA PLENO"; rankEmoji = "🥈"; }
-    else if (stars === 1) { rank = "CIENTISTA JÚNIOR"; rankEmoji = "🥉"; }
-    else { rank = "APRENDIZ DE LABORATÓRIO"; rankEmoji = "🔬"; }
+    let rank, rankEmoji, narrative;
+    if (stars === 3) {
+        rank = "MESTRE DAS MISTURAS"; rankEmoji = "🏆";
+        narrative = `${state.playerName}, você foi INCRÍVEL! Todas as amostras do laboratório foram classificadas com maestria. Você dominou misturas, coloides e métodos de separação como um verdadeiro cientista. Continue explorando a ciência — o mundo precisa de mentes curiosas como a sua!`;
+    } else if (stars === 2) {
+        rank = "CIENTISTA PLENO"; rankEmoji = "🥈";
+        narrative = `Muito bem, ${state.playerName}! Você mostrou ótimo domínio das misturas e seus métodos de separação. Que tal revisitar os cards das fases onde teve mais dificuldade? Com mais uma rodada, tenho certeza de que você alcançará a classificação máxima!`;
+    } else if (stars === 1) {
+        rank = "CIENTISTA JÚNIOR"; rankEmoji = "🥉";
+        narrative = `Bom trabalho, ${state.playerName}! Você enfrentou todos os desafios do laboratório e isso já mostra coragem científica. Recomendo reler os cards de aula com calma e tentar novamente. Cada tentativa é um passo a mais no caminho da ciência!`;
+    } else {
+        rank = "APRENDIZ DE LABORATÓRIO"; rankEmoji = "🔬";
+        narrative = `${state.playerName}, obrigado por encarar a missão! Cada erro é uma chance de aprender algo novo. Releia os cards de aula com atenção — eles guardam todas as respostas que você precisa. Volte quando quiser, estarei aqui esperando para explorarmos juntos!`;
+    }
 
     document.getElementById('cert-name').textContent = state.playerName;
     document.getElementById('cert-rank').textContent = `${rankEmoji} ${rank} ${rankEmoji}`;
     document.getElementById('cert-stars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
     document.getElementById('cert-score').textContent = `Acertos de primeira: ${state.totalFirstTryCorrect} de ${totalQ} questões`;
+    document.getElementById('cert-narrative').textContent = narrative;
 
     showScreen('screen-certificate');
     playSound('success');
